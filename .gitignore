@@ -1,6 +1,7 @@
 # Server
 /Server/venv
-
+/Server/__pycache__
+/Server/database.db
 
 # Client
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.

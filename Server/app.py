@@ -31,12 +31,20 @@ def product():
     if not product_id:
         return {"status": 404, "message": "Messing Product Id"}
 
-    return get_product(product_id)
+    product = get_product(product_id)
+
+    if len(product) == 0:
+        return {"status": 404, "message": "Product Not Found"}
+
+    return product
 
 
 @app.route("/addProduct")
 def add_product():
     id = int(str(uuid.uuid1().int)[:10])
+    if not id:
+        return {"status": 404, "message": "Messing Product Id"}
+
     name = request.args.get("name")
     company = request.args.get("company")
     description = request.args.get("description")
@@ -50,7 +58,7 @@ def add_product():
     currency = request.args.get("currency") or "$"
 
     if name == "" or company == "" or description == "" or len(" ".join(images).split(" ")) != 4 or price == "" or discount == "" or currency == "":
-        return {"status": "400"}
+        return {"status": "400", "message": "Messing Parameters"}
 
     db.execute(
         "INSERT INTO products(ID, NAME, COMPANY, DESCRIPTION) VALUES(?, ?, ?, ?)", id, name, company, description)
@@ -62,23 +70,45 @@ def add_product():
             images)
     )
 
-    return {"status": 200}
+    return {"status": 200, "message": "Product Added Successfully"}
 
 
 @app.route("/removeProduct")
 def remove_product():
     id = request.args.get("id")
+    if not id:
+        return {"status": 404, "message": "Messing Product Id"}
 
     db.execute("DELETE FROM products WHERE ID=?", id)
     db.execute("DELETE FROM prices WHERE PRODUCT_ID=?", id)
     db.execute("DELETE FROM images WHERE PRODUCT_ID=?", id)
 
-    return {"status": 200}
+    return {"status": 200, "message": "Product Deleted Successfully"}
+
+
+@app.route("/addToCart")
+def add_to_cart():
+    user_id = request.args.get("userId")
+    product_id = request.args.get("productId")
+    product_amount = int(request.args.get("productAmount"))
+
+    cart_item = db.execute("SELECT * FROM carts WHERE USER_ID=? AND PRODUCT_ID=?",
+                           user_id, product_id)
+
+    if len(cart_item) > 0:
+        db.execute("UPDATE carts SET PRODUCT_AMOUNT=? WHERE PRODUCT_ID=? AND USER_ID=?",
+                   cart_item[0]["PRODUCT_AMOUNT"] + product_amount, product_id, user_id)
+
+    else:
+        db.execute("INSERT INTO carts(USER_ID, PRODUCT_ID, PRODUCT_AMOUNT) VALUES(?, ?, ?)",
+                   user_id, product_id, product_amount)
+
+    return {"status": 200, "message": "Product {} Added To Cart".format(product_id), "cart": get_cart(user_id)}
 
 
 def get_product(product_id, keys=["NAME", "COMPANY", "DESCRIPTION", "IMAGES", "PRICE"]):
     if len(db.execute("SELECT * FROM products WHERE ID = ?", product_id)) == 0:
-        return {"status": 404, "message": "Product Not Found"}
+        return {}
 
     product = {}
     for key in keys:
@@ -99,5 +129,21 @@ def get_product(product_id, keys=["NAME", "COMPANY", "DESCRIPTION", "IMAGES", "P
     return product
 
 
+def get_cart(user_id):
+    cart_products = db.execute(
+        "SELECT * FROM carts WHERE USER_ID = ?", user_id)
+
+    cart = []
+
+    for cart_product in cart_products:
+        product = get_product(cart_product["PRODUCT_ID"])
+        if len(product) == 0:
+            db.execute("DELETE FROM cartes WHERE PRODUCT_ID=?",
+                       cart_product["PRODUCT_ID"])
+        else:
+            product["amount"] = cart_product["PRODUCT_AMOUNT"]
+            cart.append(product)
+
+    return cart
 if __name__ == "__main__":
     app.run(debug=True)

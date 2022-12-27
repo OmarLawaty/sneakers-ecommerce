@@ -28,21 +28,10 @@ def products():
 @app.route('/product')
 def product():
     product_id = request.args.get("productId")
-    product = db.execute(
-        "SELECT * FROM products WHERE ID = ?", product_id)
+    if not product_id:
+        return {"status": 404, "message": "Messing Product Id"}
 
-    if len(product) == 0:
-        return {"product": {}, "ErrMessage": "Product Not Found"}
-
-    product_price = db.execute(
-        "SELECT * FROM prices WHERE PRODUCT_ID = ?", product[0]["ID"])
-    product_images = db.execute(
-        "SELECT * FROM images WHERE PRODUCT_ID = ?", product[0]["ID"])
-
-    product[0]["PRICE"] = product_price[0]
-    product[0]["IMAGES"] = product_images[0]
-
-    return {"product": product[0]}
+    return get_product(product_id)
 
 
 @app.route("/addProduct")
@@ -85,6 +74,29 @@ def remove_product():
     db.execute("DELETE FROM images WHERE PRODUCT_ID=?", id)
 
     return {"status": 200}
+
+
+def get_product(product_id, keys=["NAME", "COMPANY", "DESCRIPTION", "IMAGES", "PRICE"]):
+    if len(db.execute("SELECT * FROM products WHERE ID = ?", product_id)) == 0:
+        return {"status": 404, "message": "Product Not Found"}
+
+    product = {}
+    for key in keys:
+        if key == "IMAGES":
+            images = db.execute(
+                "SELECT IMAGES FROM images WHERE PRODUCT_ID = ?", product_id)[0][key].split(" ")
+            product[key] = images
+
+        elif key == "PRICE":
+            price = db.execute(
+                "SELECT PRICE,DISCOUNT,CURRENCY FROM prices WHERE PRODUCT_ID = ?", product_id)[0]
+            product[key] = price
+
+        else:
+            product[key] = db.execute(
+                "SELECT {} FROM products WHERE ID = ?".format(key), product_id)[0][key]
+
+    return product
 
 
 if __name__ == "__main__":

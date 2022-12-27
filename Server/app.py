@@ -45,5 +45,36 @@ def product():
     return {"product": product[0]}
 
 
+@app.route("/addProduct")
+def add_product():
+    id = int(str(uuid.uuid1().int)[:10])
+    name = request.args.get("name")
+    company = request.args.get("company")
+    description = request.args.get("description")
+    images = [request.args.get("firstImage"),
+              request.args.get("secondImage"),
+              request.args.get("thirdImage"),
+              request.args.get("fourthImage")
+              ]
+    price = request.args.get("price")
+    discount = request.args.get("discount") or 0
+    currency = request.args.get("currency") or "$"
+
+    if name == "" or company == "" or description == "" or len(" ".join(images).split(" ")) != 4 or price == "" or discount == "" or currency == "":
+        return {"status": "400"}
+
+    db.execute(
+        "INSERT INTO products(ID, NAME, COMPANY, DESCRIPTION) VALUES(?, ?, ?, ?)", id, name, company, description)
+    db.execute(
+        "INSERT INTO prices(PRODUCT_ID, PRICE, DISCOUNT, CURRENCY) VALUES(?, ?, ?, ?)", id, price, discount, currency
+    )
+    db.execute(
+        "INSERT INTO images(PRODUCT_ID, IMAGES) VALUES(?, ?)", id, " ".join(
+            images)
+    )
+
+    return {"status": 200}
+
+
 if __name__ == "__main__":
     app.run(debug=True)

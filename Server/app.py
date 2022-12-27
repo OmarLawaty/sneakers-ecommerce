@@ -76,5 +76,16 @@ def add_product():
     return {"status": 200}
 
 
+@app.route("/removeProduct")
+def remove_product():
+    id = request.args.get("id")
+
+    db.execute("DELETE FROM products WHERE ID=?", id)
+    db.execute("DELETE FROM prices WHERE PRODUCT_ID=?", id)
+    db.execute("DELETE FROM images WHERE PRODUCT_ID=?", id)
+
+    return {"status": 200}
+
+
 if __name__ == "__main__":
     app.run(debug=True)

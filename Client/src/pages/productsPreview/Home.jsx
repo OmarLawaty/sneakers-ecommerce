@@ -1,28 +1,27 @@
 import { Grid } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+
+import { useFetch } from '../../hooks';
 
 import ProductCard from './ProductCard';
+import { RequestHandler } from '../../components';
 
 export const Home = () => {
-  const [products, setProducts] = useState([]);
+  const { data, isLoading, error, isError } = useFetch('/products');
 
-  useEffect(() => {
-    (async () => setProducts(await (await axios.get('/products')).data.products))();
-  }, []);
-
-  console.log(products);
+  console.log(data);
 
   return (
-    <Grid
-      as="section"
-      templateColumns={['1fr', '1fr 1fr', null, 'repeat(3, 1fr)', 'repeat(4, 1fr)']}
-      gap={[4, null, 8, 10, 20]}
-      m="5"
-    >
-      {products.length > 0
-        ? products.map(product => <ProductCard product={product} key={product.ID} />)
-        : 'No Products'}
-    </Grid>
+    <RequestHandler isLoading={isLoading} isError={isError} error={error}>
+      <Grid
+        as="section"
+        templateColumns={['1fr', '1fr 1fr', null, 'repeat(3, 1fr)', 'repeat(4, 1fr)']}
+        gap={[4, null, 8, 10, 20]}
+        m="5"
+      >
+        {data.products
+          ? data.products.map(product => <ProductCard product={product} key={product.ID} />)
+          : 'No Products'}
+      </Grid>
+    </RequestHandler>
   );
 };

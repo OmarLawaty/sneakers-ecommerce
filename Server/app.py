@@ -105,6 +105,15 @@ def add_to_cart():
     return {"status": 200, "message": "Product {} Added To Cart".format(product_id), "cart": get_cart(user_id)}
 
 
+@app.route("/deleteFromCart")
+def delete_from_cart():
+    user_id = request.args.get("userId")
+    product_id = request.args.get("productId")
+
+    db.execute(
+        "DELETE FROM carts WHERE PRODUCT_ID = ? AND USER_ID = ?", product_id, user_id)
+
+
 @app.route("/getCart")
 def get_user_cart():
     user_id = request.args.get("userId")

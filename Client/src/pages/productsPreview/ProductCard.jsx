@@ -1,16 +1,9 @@
-import { Box, Button, Heading, Image, Text } from '@chakra-ui/react';
-import axios from 'axios';
+import { Box, Heading, Image, Text } from '@chakra-ui/react';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { getDiscount } from '../../utils/helpers';
 
 const ProductCard = ({ product }) => {
-  const onDELETE = async () => {
-    await axios.get('/removeProduct', {
-      params: { id: product.ID }
-    });
-  };
-
   return (
     <Box
       as={Link}
@@ -26,14 +19,7 @@ const ProductCard = ({ product }) => {
       transition="transform 500ms, box-shadow 300ms, border 500ms"
       _hover={{ transform: 'scale(1.02)', border: 'darkblue 1px solid', shadow: 'lg' }}
     >
-      <Image
-        h="160px"
-        w="full"
-        objectFit="cover"
-        loading="lazy"
-        src={product.IMAGES.IMAGES.trim().split(' ')[0]}
-        alt={`${product.NAME}`}
-      />
+      <Image h="160px" w="full" objectFit="cover" loading="lazy" src={product.IMAGES[0]} alt={`${product.NAME}`} />
 
       <Box p="4" pb="10">
         <Heading size="sm" fontWeight="700" lineHeight="1.4" mb="15">
@@ -51,10 +37,6 @@ const ProductCard = ({ product }) => {
               </sub>
             </Box>
           </Text>
-
-          <Button pos="absolute" onClick={onDELETE}>
-            DELETE
-          </Button>
         </Box>
       </Box>
     </Box>

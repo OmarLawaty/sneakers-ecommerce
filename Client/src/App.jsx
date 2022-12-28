@@ -6,44 +6,44 @@ import { Header } from './components';
 import { Home, Product, PageNotFound } from './pages';
 
 const App = () => {
-  const [cart, setCart] = useState(JSON.parse(localStorage.getItem('cart')) || []);
+  // const [cart, setCart] = useState(JSON.parse(localStorage.getItem('cart')) || []);
 
-  const setCartItem = (newItem = null, clearItem = false, clearCart = false) => {
-    let updateItemIndex = null;
-    let filteredCart = cart.filter((cartItem, index) => {
-      if (newItem.ID === cartItem.ID) updateItemIndex = index;
+  // const setCartItem = (newItem = null, clearItem = false, clearCart = false) => {
+  //   let updateItemIndex = null;
+  //   let filteredCart = cart.filter((cartItem, index) => {
+  //     if (newItem.ID === cartItem.ID) updateItemIndex = index;
 
-      return cartItem.ID !== newItem.ID;
-    });
+  //     return cartItem.ID !== newItem.ID;
+  //   });
 
-    if (clearCart) {
-      setCart([]);
-      localStorage.setItem('cart', JSON.stringify([]));
-      return;
-    }
+  //   if (clearCart) {
+  //     setCart([]);
+  //     localStorage.setItem('cart', JSON.stringify([]));
+  //     return;
+  //   }
 
-    if (clearItem) {
-      setCart(filteredCart);
-      localStorage.setItem('cart', JSON.stringify(filteredCart));
-      return;
-    }
-    if (newItem === null) return;
+  //   if (clearItem) {
+  //     setCart(filteredCart);
+  //     localStorage.setItem('cart', JSON.stringify(filteredCart));
+  //     return;
+  //   }
+  //   if (newItem === null) return;
 
-    if (updateItemIndex === null) {
-      setCart([...cart, newItem]);
-      localStorage.setItem('cart', JSON.stringify([...cart, newItem]));
-    }
-    if (typeof updateItemIndex === 'number') {
-      cart[updateItemIndex].amount = cart[updateItemIndex].amount + newItem.amount;
-      setCart([...filteredCart, cart[updateItemIndex]]);
+  //   if (updateItemIndex === null) {
+  //     setCart([...cart, newItem]);
+  //     localStorage.setItem('cart', JSON.stringify([...cart, newItem]));
+  //   }
+  //   if (typeof updateItemIndex === 'number') {
+  //     cart[updateItemIndex].amount = cart[updateItemIndex].amount + newItem.amount;
+  //     setCart([...filteredCart, cart[updateItemIndex]]);
 
-      localStorage.setItem('cart', JSON.stringify([...filteredCart, cart[updateItemIndex]]));
-    }
-  };
+  //     localStorage.setItem('cart', JSON.stringify([...filteredCart, cart[updateItemIndex]]));
+  //   }
+  // };
 
   return (
     <>
-      <Header cart={cart} setCartItem={setCartItem} />
+      {/* <Header cart={cart} setCartItem={setCartItem} /> */}
 
       <Container
         as="main"
@@ -59,7 +59,7 @@ const App = () => {
           <Route path="*" element={<Navigate to={`/products/`} />} />
           <Route path="/products/" element={<Home />} />
           <Route path="/products/notfound" element={<PageNotFound />} />
-          <Route path={`/products/:id`} element={<Product cart={cart} setCartItem={setCartItem} />} />
+          {/* <Route path={`/products/:id`} element={<Product cart={cart} setCartItem={setCartItem} />} /> */}
         </Routes>
       </Container>
     </>

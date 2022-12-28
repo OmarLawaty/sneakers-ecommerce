@@ -2,7 +2,6 @@ import { Grid } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-// import products from '../../utils/products/products';
 import ProductCard from './ProductCard';
 
 export const Home = () => {
@@ -12,6 +11,8 @@ export const Home = () => {
     (async () => setProducts(await (await axios.get('/products')).data.products))();
   }, []);
 
+  console.log(products);
+
   return (
     <Grid
       as="section"
@@ -19,7 +20,9 @@ export const Home = () => {
       gap={[4, null, 8, 10, 20]}
       m="5"
     >
-      {products.length > 0 ? products.map(product => <ProductCard product={product} key={product.ID} />) : 0}
+      {products.length > 0
+        ? products.map(product => <ProductCard product={product} key={product.ID} />)
+        : 'No Products'}
     </Grid>
   );
 };

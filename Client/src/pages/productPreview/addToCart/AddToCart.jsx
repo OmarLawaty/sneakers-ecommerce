@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import { Image, Text, Button, Flex } from '@chakra-ui/react';
+import axios from 'axios';
 
 import { cart } from './assets';
 
-export const AddToCart = ({ setCartItem, product }) => {
+export const AddToCart = ({ product, setCart }) => {
   const [amount, setAmount] = useState(0);
 
   const productAmountHandler = newAmount => {
-    if (amount + newAmount < 0) return;
+    if (amount + newAmount < 0 || amount + newAmount > 50) return;
     setAmount(amount + newAmount);
   };
 
@@ -21,6 +22,7 @@ export const AddToCart = ({ setCartItem, product }) => {
         w={['full', '40']}
         h="14"
         px={['6', null, '0']}
+        userSelect="none"
       >
         <Flex
           onClick={() => productAmountHandler(-1)}
@@ -28,6 +30,9 @@ export const AddToCart = ({ setCartItem, product }) => {
           justifyContent="center"
           h="10"
           cursor="pointer"
+          color="orange.400"
+          fontWeight="900"
+          fontSize="2xl"
         >
           -
         </Flex>
@@ -42,6 +47,9 @@ export const AddToCart = ({ setCartItem, product }) => {
           justifyContent="center"
           h="10"
           cursor="pointer"
+          color="orange.400"
+          fontWeight="900"
+          fontSize="2xl"
         >
           +
         </Flex>
@@ -49,7 +57,15 @@ export const AddToCart = ({ setCartItem, product }) => {
 
       <Flex
         as={Button}
-        onClick={() => (amount ? setCartItem({ ...product, amount }) : null)}
+        onClick={async () => {
+          if (amount) {
+            setCart(
+              await (
+                await axios.get('/addToCart', { params: { userId: 0, productId: product?.ID, productAmount: amount } })
+              ).data?.cart
+            );
+          }
+        }}
         title={amount === 0 ? 'Please increase the product amount' : null}
         justifyContent="center"
         alignItems="center"

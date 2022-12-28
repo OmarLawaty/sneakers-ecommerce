@@ -35,7 +35,7 @@ def product():
     if len(product) == 0:
         return {"status": 404, "message": "Product Not Found"}
 
-    return product
+    return {"status": 200, "message": "Product Found", "product": product}
 
 
 @app.route("/addProduct")
@@ -96,7 +96,7 @@ def add_to_cart():
 
     if len(cart_item) > 0:
         db.execute("UPDATE carts SET PRODUCT_AMOUNT=? WHERE PRODUCT_ID=? AND USER_ID=?",
-                   cart_item[0]["PRODUCT_AMOUNT"] + product_amount, product_id, user_id)
+                   product_amount, product_id, user_id)
 
     else:
         db.execute("INSERT INTO carts(USER_ID, PRODUCT_ID, PRODUCT_AMOUNT) VALUES(?, ?, ?)",
@@ -113,7 +113,7 @@ def delete_from_cart():
     db.execute(
         "DELETE FROM carts WHERE PRODUCT_ID = ? AND USER_ID = ?", product_id, user_id)
 
-    return {"status": 200, "message": "Product Deleted From Cart"}
+    return {"status": 200, "message": "Product Deleted From Cart", "cart": get_cart(user_id)}
 
 
 @app.route("/getCart")

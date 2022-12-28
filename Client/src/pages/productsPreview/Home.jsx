@@ -13,8 +13,9 @@ export const Home = () => {
       <Grid
         as="section"
         templateColumns={['1fr', '1fr 1fr', null, 'repeat(3, 1fr)', 'repeat(4, 1fr)']}
-        gap={[4, null, 8, 10, 20]}
+        gap={[4, null, 8, 10, 15]}
         m="5"
+        w="full"
       >
         {data.products
           ? data.products.map(product => <ProductCard product={product} key={product.ID} />)

@@ -1,30 +1,20 @@
-import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import history from '../../utils/history';
 import { ProductInfo, ProductPreview } from './';
 import { PageNotFound } from '../PageNotFound';
-import axios from 'axios';
+import { useFetch } from '../../hooks';
+import { RequestHandler } from '../../components';
 
-export const Product = ({ cart, setCartItem }) => {
+export const Product = ({ setCart }) => {
   const productId = useParams().id;
 
-  const [product, setProduct] = useState({});
+  const { data, isLoading, error, isError } = useFetch('/product', { productId });
 
-  useEffect(() => {
-    (async () => {
-      const product = await (await axios.get('/product', { params: { productId: productId } })).data;
-
-      if (await product.ErrMessage) history.push('/products/notfound');
-      setProduct(product.product);
-    })();
-  }, [product.length, productId]);
-
-  return product.NAME ? (
-    <>
-      <ProductPreview product={product} cart={cart} />
-      <ProductInfo product={product} setCartItem={setCartItem} />
-    </>
+  return data.status !== 404 ? (
+    <RequestHandler isLoading={isLoading} isError={isError} error={error}>
+      <ProductPreview product={data.product} />
+      <ProductInfo product={data.product} setCart={setCart} />
+    </RequestHandler>
   ) : (
     <PageNotFound />
   );

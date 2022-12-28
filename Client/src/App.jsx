@@ -1,48 +1,23 @@
 import { Container } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
 import { Header } from './components';
+import { useFetch } from './hooks';
 import { Home, Product, PageNotFound } from './pages';
 
 const App = () => {
-  // const [cart, setCart] = useState(JSON.parse(localStorage.getItem('cart')) || []);
+  const [cart, setCart] = useState([]);
 
-  // const setCartItem = (newItem = null, clearItem = false, clearCart = false) => {
-  //   let updateItemIndex = null;
-  //   let filteredCart = cart.filter((cartItem, index) => {
-  //     if (newItem.ID === cartItem.ID) updateItemIndex = index;
+  const { data } = useFetch('/getCart', { userId: 0, userName: 'Omar' });
 
-  //     return cartItem.ID !== newItem.ID;
-  //   });
-
-  //   if (clearCart) {
-  //     setCart([]);
-  //     localStorage.setItem('cart', JSON.stringify([]));
-  //     return;
-  //   }
-
-  //   if (clearItem) {
-  //     setCart(filteredCart);
-  //     localStorage.setItem('cart', JSON.stringify(filteredCart));
-  //     return;
-  //   }
-  //   if (newItem === null) return;
-
-  //   if (updateItemIndex === null) {
-  //     setCart([...cart, newItem]);
-  //     localStorage.setItem('cart', JSON.stringify([...cart, newItem]));
-  //   }
-  //   if (typeof updateItemIndex === 'number') {
-  //     cart[updateItemIndex].amount = cart[updateItemIndex].amount + newItem.amount;
-  //     setCart([...filteredCart, cart[updateItemIndex]]);
-
-  //     localStorage.setItem('cart', JSON.stringify([...filteredCart, cart[updateItemIndex]]));
-  //   }
-  // };
+  useEffect(() => {
+    setCart(data?.cart);
+  }, [data?.cart]);
 
   return (
     <>
-      <Header />
+      <Header cart={cart} setCart={setCart} />
 
       <Container
         as="main"
@@ -57,8 +32,8 @@ const App = () => {
         <Routes>
           <Route path="*" element={<Navigate to={`/products/`} />} />
           <Route path="/products/" element={<Home />} />
-          <Route path="/products/notfound" element={<PageNotFound />} />
-          {/* <Route path={`/products/:id`} element={<Product cart={cart} setCartItem={setCartItem} />} /> */}
+          <Route path="/products/*" element={<PageNotFound />} />
+          <Route path={`/products/:id`} element={<Product setCart={setCart} />} />
         </Routes>
       </Container>
     </>

@@ -9,12 +9,10 @@ export const ProductPreview = ({ product }) => {
 
   const [activeImage, setActiveImage] = useState(0);
 
-  console.log(product.IMAGES.IMAGES.trim().split(' '));
-
   const activeImageHandler = amount => {
-    if (activeImage + amount < 0) return setActiveImage(product.IMAGES.IMAGES.trim().split(' ').length - 1);
+    if (activeImage + amount < 0) return setActiveImage(product?.IMAGES.length - 1);
 
-    if (activeImage + amount === product.IMAGES.IMAGES.trim().split(' ').length) return setActiveImage(0);
+    if (activeImage + amount === product?.IMAGES.length) return setActiveImage(0);
 
     setActiveImage(activeImage + amount);
   };
@@ -55,7 +53,7 @@ export const ProductPreview = ({ product }) => {
         </Box>
 
         <Image
-          src={product.IMAGES.IMAGES.trim().split(' ')[activeImage]}
+          src={product?.IMAGES[activeImage]}
           alt=""
           objectFit={['cover', null, 'unset']}
           h={['full', null, 'inherit']}
@@ -86,7 +84,7 @@ export const ProductPreview = ({ product }) => {
       </Box>
 
       <Flex gap="6" display={['none', null, 'flex']} justifyContent="center">
-        {product.IMAGES.IMAGES.trim().split(' ').map((img, index) => (
+        {product?.IMAGES.map((img, index) => (
           <Box
             onClick={() => setActiveImage(index)}
             key={index}
@@ -119,7 +117,7 @@ export const ProductPreview = ({ product }) => {
 
       {fullScreenPreview && (
         <ProductFullScreenPreview
-          productImages={product.IMAGES.IMAGES.trim().split(' ')}
+          productImages={product?.IMAGES}
           setFullScreenPreview={setFullScreenPreview}
           oldActiveImage={activeImage}
         />

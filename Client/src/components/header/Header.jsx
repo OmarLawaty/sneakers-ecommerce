@@ -7,7 +7,7 @@ import { logo, avatar } from './assets';
 import { NavMenuToggler } from './NavMenuToggler';
 import { Link } from 'react-router-dom';
 
-export const Header = () => {
+export const Header = ({ cart, setCart }) => {
   const [isNavOpened, setIsNavOpened] = useState(false);
 
   return (
@@ -36,7 +36,7 @@ export const Header = () => {
       </Flex>
 
       <Flex justifyContent="space-between" alignItems="center" w={['9.6rem', '6.5rem', '7.5rem']}>
-        <Cart />
+        <Cart cart={cart} setCart={setCart} />
 
         <Box
           w={['6', '8', '12']}

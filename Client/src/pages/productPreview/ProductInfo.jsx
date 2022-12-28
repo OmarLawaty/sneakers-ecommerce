@@ -3,7 +3,7 @@ import { Box, Heading, Text, Flex } from '@chakra-ui/react';
 import { AddToCart } from './';
 import { formatCurrency, getDiscount } from '../../utils/helpers';
 
-export const ProductInfo = ({ product, setCartItem }) => {
+export const ProductInfo = ({ product, setCart }) => {
   return (
     <Box
       w={[null, null, 'md', 'xl']}
@@ -24,7 +24,7 @@ export const ProductInfo = ({ product, setCartItem }) => {
         pt="2"
         mb={['2.5', null, '5']}
       >
-        {product.COMPANY}
+        {product?.COMPANY}
       </Heading>
 
       <Text
@@ -34,11 +34,11 @@ export const ProductInfo = ({ product, setCartItem }) => {
         lineHeight="1.1"
         mb={['3.5', null, '8']}
       >
-        {product.NAME}
+        {product?.NAME}
       </Text>
 
       <Text lineHeight="1.6" letterSpacing="-0.4px" mb={['5', null, '4']}>
-        {product.DESCRIPTION}
+        {product?.DESCRIPTION}
       </Text>
 
       <Flex
@@ -49,8 +49,8 @@ export const ProductInfo = ({ product, setCartItem }) => {
         flexDir={['row', null, 'column']}
       >
         <Flex as="p" alignItems="center" fontSize="3xl" fontWeight="700" gap="4">
-          {product.PRICE.CURRENCY}
-          {formatCurrency(getDiscount(product.PRICE.PRICE, product.PRICE.DISCOUNT))}{' '}
+          {product?.PRICE.CURRENCY}
+          {formatCurrency(getDiscount(product?.PRICE.PRICE, product?.PRICE.DISCOUNT))}{' '}
           <Text
             display="inline-flex"
             as="span"
@@ -63,17 +63,17 @@ export const ProductInfo = ({ product, setCartItem }) => {
             w="12"
             h="7"
           >
-            {product.PRICE.DISCOUNT}%
+            {product?.PRICE.DISCOUNT}%
           </Text>
         </Flex>
 
         <Text color="blue.700" textDecor="line-through" fontWeight="700">
-          {product.PRICE.CURRENCY}
-          {formatCurrency(product.PRICE.PRICE)}
+          {product?.PRICE.CURRENCY}
+          {formatCurrency(product?.PRICE.PRICE)}
         </Text>
       </Flex>
 
-      <AddToCart product={product} setCartItem={setCartItem} />
+      <AddToCart product={product} setCart={setCart} />
     </Box>
   );
 };

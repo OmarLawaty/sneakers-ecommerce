@@ -37,7 +37,8 @@ const colors = {
     400: 'hsl(26, 100%, 55%)'
   },
 
-  modal: 'hsla(0, 0%, 0%, 0.6)'
+  modal: 'hsla(0, 0%, 0%, 0.6)',
+  loader: 'hsla(0, 0%, 0%, 0.6)'
 };
 
 // Custom Components

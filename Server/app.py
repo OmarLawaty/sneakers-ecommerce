@@ -11,18 +11,17 @@ db = SQL("sqlite:///database.db")
 @app.route('/products')
 def products():
     products = db.execute('SELECT * FROM products')
-    prices = db.execute("SELECT * FROM prices")
-    images = db.execute("SELECT * FROM images")
 
     for product in products:
-        for price in prices:
-            if product["ID"] == price["PRODUCT_ID"]:
-                product["PRICE"] = price
-        for image in images:
-            if product["ID"] == image["PRODUCT_ID"]:
-                product["IMAGES"] = image
+        price = db.execute(
+            "SELECT PRICE,DISCOUNT,CURRENCY FROM prices WHERE PRODUCT_ID = ?", product["ID"])[0]
+        product["PRICE"] = price
 
-    return {"products": products}
+        image = db.execute(
+            "SELECT IMAGES FROM images WHERE PRODUCT_ID = ?", product["ID"])[0]["IMAGES"].split(" ")
+        product["IMAGES"] = image
+
+    return {"status": 200, "message": "Returned All products", "products": products}
 
 
 @app.route('/product')

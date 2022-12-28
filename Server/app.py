@@ -113,6 +113,8 @@ def delete_from_cart():
     db.execute(
         "DELETE FROM carts WHERE PRODUCT_ID = ? AND USER_ID = ?", product_id, user_id)
 
+    return {"status": 200, "message": "Product Deleted From Cart"}
+
 
 @app.route("/getCart")
 def get_user_cart():
@@ -129,7 +131,7 @@ def get_user_cart():
     return {"status": 200, "message": "Cart Loaded", "cart": get_cart(user_id)}
 
 
-def get_product(product_id, keys=["NAME", "COMPANY", "DESCRIPTION", "IMAGES", "PRICE"]):
+def get_product(product_id, keys=["ID", "NAME", "COMPANY", "DESCRIPTION", "IMAGES", "PRICE"]):
     if len(db.execute("SELECT * FROM products WHERE ID = ?", product_id)) == 0:
         return {}
 

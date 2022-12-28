@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Container } from '@chakra-ui/react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
@@ -43,7 +42,7 @@ const App = () => {
 
   return (
     <>
-      {/* <Header cart={cart} setCartItem={setCartItem} /> */}
+      <Header />
 
       <Container
         as="main"

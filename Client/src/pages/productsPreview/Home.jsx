@@ -8,8 +8,6 @@ import { RequestHandler } from '../../components';
 export const Home = () => {
   const { data, isLoading, error, isError } = useFetch('/products');
 
-  console.log(data);
-
   return (
     <RequestHandler isLoading={isLoading} isError={isError} error={error}>
       <Grid

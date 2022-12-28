@@ -120,12 +120,6 @@ def get_user_cart():
     return {"status": 200, "message": "Cart Loaded", "cart": get_cart(user_id)}
 
 
-# @app.route("/test")
-# def test():
-#     db.execute("DELETE FROM users WHERE NAME=?", "")
-#     return {"product": get_product(0)}
-
-
 def get_product(product_id, keys=["NAME", "COMPANY", "DESCRIPTION", "IMAGES", "PRICE"]):
     if len(db.execute("SELECT * FROM products WHERE ID = ?", product_id)) == 0:
         return {}

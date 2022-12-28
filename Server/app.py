@@ -42,7 +42,7 @@ def product():
 def add_product():
     id = int(str(uuid.uuid1().int)[:10])
     if not id:
-        return {"status": 404, "message": "Messing Product Id"}
+        return {"status": 404, "message": "The product couldn't be added"}
 
     name = request.args.get("name")
     company = request.args.get("company")
@@ -56,7 +56,7 @@ def add_product():
     discount = request.args.get("discount") or 0
     currency = request.args.get("currency") or "$"
 
-    if name == "" or company == "" or description == "" or len(" ".join(images).split(" ")) != 4 or price == "" or discount == "" or currency == "":
+    if not name or not company or not description or len(" ".join(images).split(" ")) != 4 or not price or not discount or not currency:
         return {"status": "400", "message": "Messing Parameters"}
 
     db.execute(
@@ -105,6 +105,27 @@ def add_to_cart():
     return {"status": 200, "message": "Product {} Added To Cart".format(product_id), "cart": get_cart(user_id)}
 
 
+@app.route("/getCart")
+def get_user_cart():
+    user_id = request.args.get("userId")
+    user_name = request.args.get("userName")
+    if not user_id or not user_name:
+        return {"status": 400, "message": "Invalid UserId Or Username"}
+
+    if len(get_user(user_id)) == 0:
+        add_user(user_id, user_name)
+
+        return {"status": 200, "message": "New User Added", "cart": []}
+
+    return {"status": 200, "message": "Cart Loaded", "cart": get_cart(user_id)}
+
+
+# @app.route("/test")
+# def test():
+#     db.execute("DELETE FROM users WHERE NAME=?", "")
+#     return {"product": get_product(0)}
+
+
 def get_product(product_id, keys=["NAME", "COMPANY", "DESCRIPTION", "IMAGES", "PRICE"]):
     if len(db.execute("SELECT * FROM products WHERE ID = ?", product_id)) == 0:
         return {}
@@ -144,5 +165,20 @@ def get_cart(user_id):
             cart.append(product)
 
     return cart
+
+
+def add_user(user_id, name):
+    db.execute("INSERT INTO users(ID, NAME) VALUES(?, ?)", user_id, name)
+
+
+def get_user(id):
+    user = db.execute("SELECT * FROM users WHERE ID=?", id)
+
+    if len(user) == 0:
+        return {}
+    else:
+        return user
+
+
 if __name__ == "__main__":
     app.run(debug=True)

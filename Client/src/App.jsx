@@ -3,7 +3,7 @@ import { Container } from '@chakra-ui/react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
 import { Header } from './components';
-import { Home, Product, ProductNotFound, AddProduct } from './pages';
+import { Home, Product, PageNotFound } from './pages';
 
 const App = () => {
   const [cart, setCart] = useState(JSON.parse(localStorage.getItem('cart')) || []);
@@ -57,9 +57,8 @@ const App = () => {
       >
         <Routes>
           <Route path="*" element={<Navigate to={`/products/`} />} />
-          <Route path="/products/add-product/" element={<AddProduct />} />
           <Route path="/products/" element={<Home />} />
-          <Route path="/products/notfound" element={<ProductNotFound />} />
+          <Route path="/products/notfound" element={<PageNotFound />} />
           <Route path={`/products/:id`} element={<Product cart={cart} setCartItem={setCartItem} />} />
         </Routes>
       </Container>

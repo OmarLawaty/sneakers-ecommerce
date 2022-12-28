@@ -1,6 +1,6 @@
 import { Box, Heading, Text, Flex } from '@chakra-ui/react';
 
-import { AddToCart } from '../../components';
+import { AddToCart } from './';
 import { formatCurrency, getDiscount } from '../../utils/helpers';
 
 export const ProductInfo = ({ product, setCartItem }) => {

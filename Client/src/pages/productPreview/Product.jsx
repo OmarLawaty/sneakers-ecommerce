@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import history from '../../utils/history';
-import { ProductInfo, ProductPreview } from '../../components';
-import { ProductNotFound } from '../PageNotFound';
+import { ProductInfo, ProductPreview } from './';
+import { PageNotFound } from '../PageNotFound';
 import axios from 'axios';
 
 export const Product = ({ cart, setCartItem }) => {
@@ -26,6 +26,6 @@ export const Product = ({ cart, setCartItem }) => {
       <ProductInfo product={product} setCartItem={setCartItem} />
     </>
   ) : (
-    <ProductNotFound />
+    <PageNotFound />
   );
 };

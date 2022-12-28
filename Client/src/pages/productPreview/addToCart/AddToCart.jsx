@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Image, Text, Button, Flex } from '@chakra-ui/react';
 
-import { minus, plus, cart } from './assets';
+import { cart } from './assets';
 
 export const AddToCart = ({ setCartItem, product }) => {
   const [amount, setAmount] = useState(0);
@@ -29,7 +29,7 @@ export const AddToCart = ({ setCartItem, product }) => {
           h="10"
           cursor="pointer"
         >
-          <Image src={minus} alt="" />
+          -
         </Flex>
 
         <Text w="10" textAlign="center">
@@ -43,7 +43,7 @@ export const AddToCart = ({ setCartItem, product }) => {
           h="10"
           cursor="pointer"
         >
-          <Image src={plus} alt="" />
+          +
         </Flex>
       </Flex>
 

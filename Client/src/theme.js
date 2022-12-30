@@ -17,6 +17,12 @@ const globalStyles = {
       minH: '100vh',
       scrollbarGutter: 'stable',
       color: 'black'
+    },
+    '#root': {
+      minH: '100vh',
+      w: 'full',
+      display: 'flex',
+      flexDirection: 'column'
     }
   }
 };

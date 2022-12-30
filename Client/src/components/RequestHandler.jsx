@@ -3,7 +3,7 @@ import { Alert, AlertDescription, AlertIcon, AlertTitle, Flex, Spinner } from '@
 export const RequestHandler = ({ children, isLoading, isError, error }) =>
   isLoading ? (
     <Flex
-      h="full"
+      minH="full"
       bg="loader"
       flexDir="column"
       justifyContent="center"

@@ -101,11 +101,9 @@ const AddToCart = ({ product, user, isSignedIn, getCart }) => {
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    isSignedIn: state.auth.isSignedIn,
-    user: state.auth.user
-  };
-};
+const mapStateToProps = state => ({
+  isSignedIn: state.auth.isSignedIn,
+  user: state.auth.user
+});
 
 export default connect(mapStateToProps, { getCart })(AddToCart);

@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Box, Text, Image, Heading, Flex, Grid, Button } from '@chakra-ui/react';
-import { connect } from 'react-redux';
 import axios from 'axios';
+import { connect } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import { Box, Text, Image, Heading, Flex, Grid, Button } from '@chakra-ui/react';
 
 import { getCart } from '../../actions';
 
@@ -110,6 +110,7 @@ const Cart = ({ getCart, cart, user }) => {
               }}
               onClick={async () => {
                 await axios.get('/emptyCart', { params: { userId: user.id } }).then(() => getCart());
+                setIsOpened(false);
               }}
             >
               Checkout
@@ -163,12 +164,10 @@ const CartItem = ({ cart, getCart, user, navigate }) =>
     </Flex>
   ));
 
-const mapStateToProps = state => {
-  return {
-    isSignedIn: state.auth.isSignedIn,
-    user: state.auth.user,
-    cart: state.cart.cart
-  };
-};
+const mapStateToProps = state => ({
+  isSignedIn: state.auth.isSignedIn,
+  user: state.auth.user,
+  cart: state.cart.cart
+});
 
 export default connect(mapStateToProps, { getCart })(Cart);

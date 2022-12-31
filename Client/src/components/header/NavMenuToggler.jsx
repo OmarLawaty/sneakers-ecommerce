@@ -13,6 +13,7 @@ export const NavMenuToggler = ({ setIsNavOpened, isNavOpened }) => {
       cursor="pointer"
       userSelect="none"
       pos={isNavOpened ? 'sticky' : 'static'}
+      zIndex="popover"
     >
       <Box
         as="hr"

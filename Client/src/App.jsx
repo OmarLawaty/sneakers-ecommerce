@@ -4,9 +4,8 @@ import { connect } from 'react-redux';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
 import { Header } from './components';
-import { Home, Product, PageNotFound } from './pages';
+import { Home, Product, PageNotFound, PaymentSuccessFull } from './pages';
 import { getCart } from './actions';
-import PaymentSuccessFull from './pages/paymentSuccessFull/PaymentSuccessFull';
 
 const App = ({ isSignedIn, getCart }) => {
   useEffect(() => {

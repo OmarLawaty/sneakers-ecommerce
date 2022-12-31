@@ -1,6 +1,7 @@
 import { Box, Flex, Heading, Image, Text } from '@chakra-ui/react';
 import React from 'react';
 import { Link } from 'react-router-dom';
+
 import { getDiscount } from '../../utils/helpers';
 
 const ProductCard = ({ product }) => {
@@ -38,7 +39,7 @@ const ProductCard = ({ product }) => {
           </Heading>
         </Flex>
 
-        <Flex flexDir="column" justifyContent="flex-start">
+        <Flex flexDir="column" justifyContent="flex-start" minW="30%">
           <Text fontWeight="600" fontSize="xl">
             {product.PRICE.CURRENCY} {getDiscount(product.PRICE.PRICE, product.PRICE.DISCOUNT)}
           </Text>

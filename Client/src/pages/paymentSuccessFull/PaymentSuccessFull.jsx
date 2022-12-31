@@ -1,11 +1,10 @@
-import { Box, Image, Link as StyledLink } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
+import { Box, Image, Link as StyledLink } from '@chakra-ui/react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-// import history from '../../utils/history';
 
 import { checkMark } from './assets';
 
-const PaymentSuccessFull = () => {
+export const PaymentSuccessFull = () => {
   const [redirectIn, setRedirectIn] = useState(5);
 
   const navigate = useNavigate();
@@ -38,5 +37,3 @@ const PaymentSuccessFull = () => {
     </Box>
   );
 };
-
-export default PaymentSuccessFull;

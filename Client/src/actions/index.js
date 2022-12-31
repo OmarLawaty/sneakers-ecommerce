@@ -1,18 +1,14 @@
 import axios from 'axios';
 import { SIGN_IN, SIGN_OUT, GET_CART } from './types';
 
-export const signIn = user => {
-  return {
-    type: SIGN_IN,
-    payload: user
-  };
-};
+export const signIn = user => ({
+  type: SIGN_IN,
+  payload: user
+});
 
-export const signOut = () => {
-  return {
-    type: SIGN_OUT
-  };
-};
+export const signOut = () => ({
+  type: SIGN_OUT
+});
 
 export const getCart = () => async (dispatch, getState) => {
   const user = await getState().auth.user;
@@ -21,6 +17,7 @@ export const getCart = () => async (dispatch, getState) => {
       type: GET_CART,
       payload: []
     });
+
     return;
   }
 

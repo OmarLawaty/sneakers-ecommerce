@@ -27,6 +27,7 @@ export const ProductPreview = ({ product }) => {
         mb={['0', null, '8']}
         cursor="pointer"
         h={['18.7rem', '30rem', 'auto']}
+        maxH="35rem"
         pos={['relative', null, 'static']}
       >
         <Box
@@ -52,12 +53,15 @@ export const ProductPreview = ({ product }) => {
           <Image src={leftIcon} alt="" w="auto" transition="filter 0.3s" filter="unset" />
         </Box>
 
-        <Image
-          src={product?.IMAGES[activeImage]}
-          alt=""
-          objectFit={['cover', null, 'unset']}
-          h={['full', null, 'inherit']}
-        />
+        <Box display="flex" justifyContent="center" minH="35rem" maxH="35rem">
+          <Image
+            src={product?.IMAGES[activeImage]}
+            alt=""
+            objectFit={['cover', null, 'unset']}
+            h={['full', null, 'inherit']}
+            w="auto"
+          />
+        </Box>
 
         <Box
           onClick={() => activeImageHandler(1)}

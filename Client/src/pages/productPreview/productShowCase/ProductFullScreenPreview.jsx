@@ -49,7 +49,7 @@ export const ProductFullScreenPreview = ({ productImages, setFullScreenPreview, 
           <Image src={closeIcon} alt="" />
         </Box>
 
-        <Box pos="relative" mt="6" mb="9">
+        <Box pos="relative" mt="6" mb="9" w="full">
           <Box
             onClick={() => activeImageHandler(-1)}
             pos="absolute"
@@ -73,8 +73,8 @@ export const ProductFullScreenPreview = ({ productImages, setFullScreenPreview, 
             <Image src={leftIcon} alt="" w="auto" transition="filter 0.3s" filter="unset" />
           </Box>
 
-          <Box overflow="hidden" rounded="2xl">
-            <Image src={productImages[activeImage]} alt="" />
+          <Box overflow="hidden" rounded="2xl" display="flex" justifyContent="center" minH="35rem" maxH="35rem">
+            <Image src={productImages[activeImage]} alt="" w="auto" h="auto" />
           </Box>
 
           <Box

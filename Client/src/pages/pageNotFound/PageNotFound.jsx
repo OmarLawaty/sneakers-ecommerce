@@ -1,5 +1,6 @@
 import { Box, Image, Link as StyledLink } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
+
 import { sneaker } from './assets';
 
 export const PageNotFound = () => {

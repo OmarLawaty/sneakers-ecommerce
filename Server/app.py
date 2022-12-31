@@ -131,6 +131,21 @@ def get_user_cart():
     return {"status": 200, "message": "Cart Loaded", "cart": get_cart(user_id)}
 
 
+@app.route("/emptyCart")
+def empty_cart():
+    user_id = request.args.get("userId")
+
+    if not user_id:
+        return {"status": 400, "message": "Invalid UserId"}
+
+    if len(get_user(user_id)) == 0:
+        return {"status": 400, "message": "User Not Registered"}
+
+    db.execute("DELETE FROM carts WHERE USER_ID = ?", user_id)
+
+    return {"status": 200, "message": "Cart Empty"}
+
+
 def get_product(product_id, keys=["ID", "NAME", "COMPANY", "DESCRIPTION", "IMAGES", "PRICE"]):
     if len(db.execute("SELECT * FROM products WHERE ID = ?", product_id)) == 0:
         return {}

@@ -10,6 +10,7 @@
 /Client/node_modules
 /Client/.pnp
 /Client.pnp.js
+/Client/.env
 
 # testing
 /Client/coverage

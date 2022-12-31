@@ -1,14 +1,21 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Box, Container, Flex, Image } from '@chakra-ui/react';
-
-import { Cart } from './Cart';
-import { NavItems } from './NavItems';
-import { logo, avatar } from './assets';
-import { NavMenuToggler } from './NavMenuToggler';
 import { Link } from 'react-router-dom';
 
-export const Header = ({ cart, setCart }) => {
+import Cart from './Cart';
+import { NavItems } from './NavItems';
+import { logo } from './assets';
+import { NavMenuToggler } from './NavMenuToggler';
+import GoogleAuth from '../GoogleAuth';
+
+export const Header = () => {
   const [isNavOpened, setIsNavOpened] = useState(false);
+
+  useEffect(() => {
+    const body = document.querySelector('body');
+    if (isNavOpened) body.style = 'overflow-y:hidden';
+    else body.style = 'overflow-y:auto';
+  }, [isNavOpened]);
 
   return (
     <Container
@@ -36,19 +43,10 @@ export const Header = ({ cart, setCart }) => {
       </Flex>
 
       <Flex justifyContent="space-between" alignItems="center" w={['9.6rem', '6.5rem', '7.5rem']}>
-        <Cart cart={cart} setCart={setCart} />
+        <Cart />
 
-        <Box
-          w={['6', '8', '12']}
-          rounded="50px"
-          cursor="pointer"
-          transition="outline 0.1s"
-          outline="0px solid hsl(26, 100%, 55%)"
-          _hover={{
-            outline: '2px solid hsl(26, 100%, 55%)'
-          }}
-        >
-          <Image src={avatar} alt="avatar" />
+        <Box pos="relative">
+          <GoogleAuth />
         </Box>
       </Flex>
     </Container>

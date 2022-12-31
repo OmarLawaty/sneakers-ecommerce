@@ -1,12 +1,22 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Box, Text, Image, Heading, Flex, Grid, Button } from '@chakra-ui/react';
+import { connect } from 'react-redux';
+import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
+
+import { getCart } from '../../actions';
 
 import { formatCurrency, getDiscount } from '../../utils/helpers';
 import { cartIcon, deleteIcon } from './assets';
-import axios from 'axios';
 
-export const Cart = ({ cart, setCart }) => {
+const Cart = ({ getCart, cart, user }) => {
   const [isOpened, setIsOpened] = useState(false);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    getCart();
+  }, [getCart]);
 
   return (
     <Box pos={['static', 'relative']}>
@@ -43,7 +53,7 @@ export const Cart = ({ cart, setCart }) => {
         display="flex"
         flexDir="column"
         top={isOpened ? ['4.3rem', '12'] : ['-10%', '0']}
-        left={['0', '-17rem', '-10.3rem']}
+        left={['0', '-17rem', '-14rem', null, '-10.3rem']}
         right={['0', 'unset']}
         bg="white"
         w={['auto', '22.5rem']}
@@ -79,9 +89,12 @@ export const Cart = ({ cart, setCart }) => {
 
         {cart?.length ? (
           <>
-            <CartItem cart={cart} setCart={setCart} />
+            <CartItem cart={cart} getCart={getCart} user={user} navigate={navigate} />
+
             <Button
-              display="block"
+              as={Link}
+              to="/products/successful-payment"
+              display="flex"
               transition="background-color 0.2s"
               mx="auto"
               mt="5"
@@ -94,6 +107,9 @@ export const Cart = ({ cart, setCart }) => {
               bg="orange.400"
               _hover={{
                 bg: 'rgba(255,125,26,0.7)'
+              }}
+              onClick={async () => {
+                await axios.get('/emptyCart', { params: { userId: user.id } }).then(() => getCart());
               }}
             >
               Checkout
@@ -109,7 +125,7 @@ export const Cart = ({ cart, setCart }) => {
   );
 };
 
-const CartItem = ({ cart, setCart }) =>
+const CartItem = ({ cart, getCart, user, navigate }) =>
   cart?.map(cartItem => (
     <Flex key={cartItem?.ID} alignItems="center" justifyContent="space-between" px="6" pt="6">
       <Grid templateColumns="50px auto" templateRows="auto" gap="0.4rem 1rem" color="blue.800">
@@ -136,15 +152,23 @@ const CartItem = ({ cart, setCart }) =>
 
       <Box
         onClick={async () => {
-          setCart(
-            await (
-              await axios.get('/deleteFromCart', { params: { userId: 0, productId: cartItem.ID } })
-            ).data.cart
-          );
+          await axios
+            .get('/deleteFromCart', { params: { userId: user.id, productId: cartItem.ID } })
+            .then(() => getCart());
         }}
         cursor="pointer"
       >
-        <Image src={deleteIcon} alt="" />
+        <Image src={deleteIcon} transition="filter 0.3s" _hover={{ filter: 'brightness(75%)' }} alt="" />
       </Box>
     </Flex>
   ));
+
+const mapStateToProps = state => {
+  return {
+    isSignedIn: state.auth.isSignedIn,
+    user: state.auth.user,
+    cart: state.cart.cart
+  };
+};
+
+export default connect(mapStateToProps, { getCart })(Cart);

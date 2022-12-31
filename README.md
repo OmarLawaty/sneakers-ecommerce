@@ -1,70 +1,166 @@
-# E-commerce product page
+# Sneakers E-commerce
 
-![Desktop Preview](./design/desktop-preview.jpg)
-
-This is a solution to the [E-commerce product page](https://www.frontendmentor.io/challenges/ecommerce-product-page-UPsZ9MJp6). Frontend Mentor challenges help you improve your coding skills by building realistic projects.
+Sneakers E-commerce is a sneakers shopping and buying site. This site lets you list all the products and show them with 2-4 images with product's name, company, description and price. You can also sign in with your google account and add items to your cart.
 
 ## Table of contents
 
 - [Overview](#overview)
-  - [The Challenge](#the-challenge)
-  - [Links](#links)
-- [Getting started](#getting-started) -[Start the Project](#start-the-project)
-- [My process](#my-process)
-  - [Built with](#built-with)
-  - [Useful resources](#useful-resources)
-- [Author](#author)
+  - [Built With](#built-with)
+  - [Main Files: Project Structure](#main-files-project-structure)
+- [Getting Started](#getting-started)
+
+  - [Installation](#installation)
+
+    - [Front-end](#front-end)
+
+      - [Install Dependencies](#install-dependencies)
+      - [Environment Variables](#environment-variables)
+
+    - [Back-end](#back-end)
+
+      - [Create Virtual Environment](#create-virtual-environment)
+      - [Database Configuration](#database-configuration)
+
+  - [Starting The Site](#starting-the-site)
 
 ## Overview
 
-### The challenge
+### Built With
 
-Users should be able to:
+- **SQLite3** as my database of choice.
+- **Python3** and **Flask** as my server-side language and server-side framework.
+- **ReactJs** with **Redux** and **Chakra-ui** for the website's frontend.
 
-- View the optimal layout for the site depending on their device's screen size
-- See hover states for all interactive elements on the page
-- Open a lightbox gallery by clicking on the large product image
-- Switch the large product image by clicking on the small thumbnail images
-- Add items to the cart
-- View the cart and remove items from it
+### Main Files: Project Structure
 
-### Links
+```sh
+├── README.md
+├── Client *** Website Frontend files.
+│   │   ...
+│   └── src
+│       ├── actions
+│       ├── components
+│       ├── hooks
+│       ├── pages
+│       ├── reducers
+│       ├── utils
+│       ├── App.jsx
+│       ├── index.js
+│       └── theme.js
+│       ...
+└── Server *** Website Backend files.
+    ├── app.py
+    └──database.db
+```
 
-- [Solution URL](https://www.frontendmentor.io/solutions/ecommerce-product-page-uP_V8a_yD)
-- [Live Site URL](https://ecommerce-product-preview.vercel.app/)
+## Getting Started
 
-## Getting started
+### Installation
 
-### Start the project
+#### Front-end
 
-Make sure to have `node.js` `npm` and `yarn` installed and that you are in the root directory of the project, then simply run:
+Make sure to be in the Client directory.
+
+##### Install Dependencies
+
+Make sure that you have nodejs 16.17.0 or above installed.
+
+Run the following to install yarn
+
+```bash
+npm install yarn
+```
+
+Install all the required dependencies
 
 ```bash
 yarn install
 ```
 
-To run the development server, execute:
+##### Environment Variables
+
+Create `.env` file and type in this:
+
+```bash
+REACT_APP_CLIENT_ID=<YOUR GOOGLE OAUTH CLIENT ID>
+```
+
+#### Back-end
+
+Make sure to be in the Server directory and that you have Python 3.6 or above and sqlite3 installed.
+
+##### Create Virtual Environment
+
+Run the following to create a virtual environment:
+
+```bash
+python3 -m venv env
+```
+
+Activate your newly created virtual environment by running:
+
+```bash
+source env/bin/activate
+```
+
+##### Database Configuration
+
+Run the following:
+
+```bash
+sqlite3 database.db
+```
+
+Run the following command to get all the tables:
+
+```sql
+.schema
+```
+
+You will get 5 Tables:
+
+Products:
+
+```sql
+CREATE TABLE IF NOT EXISTS "products"("ID" integer, "NAME" text, "COMPANY" text, "DESCRIPTION" text);
+```
+
+Prices:
+
+```sql
+CREATE TABLE IF NOT EXISTS "prices"("PRODUCT_ID" integer, "PRICE" integer, "DISCOUNT" integer, "CURRENCY" text);
+```
+
+Images:
+
+```sql
+CREATE TABLE IF NOT EXISTS "images"("PRODUCT_ID" integer, "IMAGES" text);
+```
+
+Users:
+
+```sql
+CREATE TABLE IF NOT EXISTS "users"("ID" text, "NAME" text);
+```
+
+Carts:
+
+```sql
+CREATE TABLE IF NOT EXISTS "carts"("USER_ID" text, "PRODUCT_ID" integer, "PRODUCT_AMOUNT" integer);
+```
+
+### Starting The Site
+
+In Client directory run:
 
 ```bash
 yarn start
 ```
 
-## My process
+In Server directory in another terminal window run:
 
-### Built with
+```bash
+flask run
+```
 
-- [React](https://reactjs.org/) - JS library
-- [Chakra-UI](https://chakra-ui.com) - Css component library
-- [React Router](https://reactrouter.com/) - Client-side routing
-
-### Useful resources
-
-- [W3schools](w3schools.com/)
-- [stackoverflow](stackoverflow.com/)
-- [MDN Web Docs](https://developer.mozilla.org/en-US/)
-
-## Author
-
-- Name - Omar Mohamed
-- Frontend Mentor - [@OmarLawaty](https://www.frontendmentor.io/profile/OmarLawaty)
-- Twitter - [@OmarLawaty](https://twitter.com/OmarLawaty)
+The site will be on http://localhost:3000

@@ -12,14 +12,12 @@ export const Home = () => {
     <RequestHandler isLoading={isLoading} isError={isError} error={error}>
       <Grid
         as="section"
-        templateColumns={['1fr', '1fr 1fr', null, 'repeat(3, 1fr)', 'repeat(4, 1fr)']}
-        gap={[4, null, 8, 10, 15]}
-        m="5"
         w="full"
+        gridTemplateColumns="repeat(auto-fill, minmax(200px, 1fr))"
+        gap={[4, null, 8, 10, 15]}
+        p="5"
       >
-        {data.products
-          ? data.products.map(product => <ProductCard product={product} key={product.ID} />)
-          : 'No Products'}
+        {data.products && data.products.map(product => <ProductCard product={product} key={product.ID} />)}
       </Grid>
     </RequestHandler>
   );

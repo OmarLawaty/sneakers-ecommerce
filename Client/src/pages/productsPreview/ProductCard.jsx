@@ -8,8 +8,7 @@ const ProductCard = ({ product }) => {
     <Box
       as={Link}
       to={`/products/${product.ID}`}
-      minH="10"
-      w="full"
+      h="min-content"
       pos="relative"
       rounded="lg"
       overflow="hidden"
@@ -21,36 +20,35 @@ const ProductCard = ({ product }) => {
     >
       <Image h="200px" w="full" objectFit="cover" loading="lazy" src={product.IMAGES[0]} alt={`${product.NAME}`} />
 
-      <Flex p="4" pb="10">
-        <Heading size="sm" fontWeight="700" lineHeight="1.4" mb="15">
-          {product.NAME}
-        </Heading>
+      <Flex justifyContent="space-between" p="4" pb="5" gap="4">
+        <Flex gap="3" flexDir="column">
+          <Heading size="sm" fontWeight="700" lineHeight="1.4">
+            {product.NAME}
+          </Heading>
 
-        <Heading
-          as="h2"
-          textTransform="uppercase"
-          size="xs"
-          letterSpacing={['0', null, '1px']}
-          fontWeight="700"
-          color="orange.400"
-          pt="2"
-          mb={['2.5', null, '5']}
-        >
-          {product?.COMPANY}
-        </Heading>
-      </Flex>
+          <Heading
+            as="h2"
+            textTransform="uppercase"
+            fontSize="0.750rem"
+            letterSpacing={['0', null, '1px']}
+            fontWeight="700"
+            color="orange.400"
+          >
+            {product?.COMPANY}
+          </Heading>
+        </Flex>
 
-      <Box>
-        <Text fontWeight="600" fontSize="xl">
-          <sup>{product.PRICE.CURRENCY}</sup> {getDiscount(product.PRICE.PRICE, product.PRICE.DISCOUNT)}
-          <Box as="span" fontWeight="300" textDecor="line-through" pl="1" color="blue.700">
-            <sub>
-              {product.PRICE.CURRENCY}
-              {product.PRICE.PRICE}
-            </sub>
+        <Flex flexDir="column" justifyContent="flex-start">
+          <Text fontWeight="600" fontSize="xl">
+            {product.PRICE.CURRENCY} {getDiscount(product.PRICE.PRICE, product.PRICE.DISCOUNT)}
+          </Text>
+
+          <Box as="span" fontWeight="300" textDecor="line-through" color="blue.700">
+            {product.PRICE.CURRENCY}
+            {product.PRICE.PRICE}
           </Box>
-        </Text>
-      </Box>
+        </Flex>
+      </Flex>
     </Box>
   );
 };

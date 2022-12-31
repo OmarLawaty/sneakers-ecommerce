@@ -1,43 +1,35 @@
 import { Container } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { connect } from 'react-redux';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
 import { Header } from './components';
-import { useFetch } from './hooks';
 import { Home, Product, PageNotFound } from './pages';
+import { getCart } from './actions';
+import PaymentSuccessFull from './pages/paymentSuccessFull/PaymentSuccessFull';
 
-const App = () => {
-  const [cart, setCart] = useState([]);
-
-  const { data } = useFetch('/getCart', { userId: 0, userName: 'Omar' });
-
+const App = ({ isSignedIn, getCart }) => {
   useEffect(() => {
-    setCart(data?.cart);
-  }, [data?.cart]);
+    getCart();
+  }, [getCart, isSignedIn]);
 
   return (
     <>
-      <Header cart={cart} setCart={setCart} />
+      <Header />
 
-      <Container
-        as="main"
-        display="flex"
-        flexDir={['column', null, 'row']}
-        justifyContent="space-between"
-        px={['0', null, '16']}
-        py={['0', null, '20']}
-        gap={[null, null, '12', '20']}
-        mb="10"
-      >
+      <Container as="main" flex="1 1 auto" px={['0', null, '16']} py={['0', null, '20']} mb={['10', null, 'unset']}>
         <Routes>
           <Route path="*" element={<Navigate to={`/products/`} />} />
           <Route path="/products/" element={<Home />} />
           <Route path="/products/*" element={<PageNotFound />} />
-          <Route path={`/products/:id`} element={<Product setCart={setCart} />} />
+          <Route path={`/products/:id`} element={<Product />} />
+          <Route path={`/products/successful-payment`} element={<PaymentSuccessFull />} />
         </Routes>
       </Container>
     </>
   );
 };
 
-export default App;
+const mapStateToProps = ({ auth: isSignedIn }) => ({ isSignedIn });
+
+export default connect(mapStateToProps, { getCart })(App);

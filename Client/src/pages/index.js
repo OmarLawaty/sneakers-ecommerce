@@ -1,3 +1,3 @@
 export { Home } from './productsPreview';
 export { Product } from './productPreview';
-export * from './PageNotFound';
+export * from './pageNotFound/PageNotFound';

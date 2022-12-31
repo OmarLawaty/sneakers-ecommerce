@@ -3,7 +3,7 @@ import { Box, Heading, Text, Flex } from '@chakra-ui/react';
 import { AddToCart } from './';
 import { formatCurrency, getDiscount } from '../../utils/helpers';
 
-export const ProductInfo = ({ product, setCart }) => {
+export const ProductInfo = ({ product }) => {
   return (
     <Box
       w={[null, null, 'md', 'xl']}
@@ -73,7 +73,7 @@ export const ProductInfo = ({ product, setCart }) => {
         </Text>
       </Flex>
 
-      <AddToCart product={product} setCart={setCart} />
+      <AddToCart product={product} />
     </Box>
   );
 };

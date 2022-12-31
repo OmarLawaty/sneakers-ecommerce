@@ -1,5 +1,5 @@
 export * from './Product';
 export * from './ProductInfo';
 export * from './productShowCase';
-export * from './addToCart/AddToCart';
+export { default as AddToCart } from './addToCart/AddToCart';
 // export * from './productShowCase';
